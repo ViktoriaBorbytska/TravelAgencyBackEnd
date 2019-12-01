@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TravelAgency.DatabaseAccess;
+using TravelAgency.DatabaseAccess.Interfaces;
 
 namespace TravelAgency.Module
 {
@@ -10,7 +12,7 @@ namespace TravelAgency.Module
         public static void AddTravelAgency(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             //serviceCollection.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
-            //serviceCollection.AddTransient<IApplicationDbContext, ApplicationDbContext>();
+            serviceCollection.AddTransient<ITravelAgencyDbContext, TravelAgencyDbContext>();
             //serviceCollection.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
             //serviceCollection.AddTransient<JwtSecurityTokenHandler>();
 

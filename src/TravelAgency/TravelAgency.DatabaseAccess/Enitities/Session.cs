@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace TravelAgency.DatabaseAccess.Entities
@@ -8,7 +9,7 @@ namespace TravelAgency.DatabaseAccess.Entities
     {
         public int Id { get; set; }
 
-        //[ForeignKey("User")]
+        [ForeignKey("User")]
         public int UserId { get; set; }
 
         public string Token { get; set; }
