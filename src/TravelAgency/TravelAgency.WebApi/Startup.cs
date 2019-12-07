@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TravelAgency.Interfaces.DatabaseAccess.Initializers;
+using TravelAgency.Module;
 
 namespace TravelAgency.WebApi
 {
@@ -40,19 +42,19 @@ namespace TravelAgency.WebApi
                 options.Filters.Add(new CorsAuthorizationFilterFactory(AllowAnyOriginPolicyName));
             });
 
-
+            services.AddTravelAgency(configuration);
         }
 
         
-        public void Configure(IApplicationBuilder applicationBuilder//,
-            //IDatabaseInitializer databaseInitializer,
+        public void Configure(IApplicationBuilder applicationBuilder,
+            IDatabaseInitializer databaseInitializer//,
             //IDatabaseSeeder databaseSeeder
             )
         {
             applicationBuilder.UseDeveloperExceptionPage();
             applicationBuilder.UseStaticFiles();
 
-            //databaseInitializer.Initialize();
+            databaseInitializer.Initialize();
             applicationBuilder.UseCors(AllowAnyOriginPolicyName);
 
             applicationBuilder.UseMvc(routes =>

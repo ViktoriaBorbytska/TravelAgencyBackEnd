@@ -1,7 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TravelAgency.DatabaseAccess;
+using TravelAgency.DatabaseAccess.Enitities.Identity;
+using TravelAgency.DatabaseAccess.Initializers;
 using TravelAgency.DatabaseAccess.Interfaces;
+using TravelAgency.Interfaces.DatabaseAccess.Initializers;
 
 namespace TravelAgency.Module
 {
@@ -11,7 +16,7 @@ namespace TravelAgency.Module
 
         public static void AddTravelAgency(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            //serviceCollection.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+            serviceCollection.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
             serviceCollection.AddTransient<ITravelAgencyDbContext, TravelAgencyDbContext>();
             //serviceCollection.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
             //serviceCollection.AddTransient<JwtSecurityTokenHandler>();
@@ -22,21 +27,21 @@ namespace TravelAgency.Module
             //BindServices(serviceCollection);
             //BindHandlers(serviceCollection);
 
-            //serviceCollection
-            //    .AddIdentity<User, IdentityRole<int>>(options => { options.User.RequireUniqueEmail = true; })
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            serviceCollection
+                .AddIdentity<User, IdentityRole<int>>(options => { options.User.RequireUniqueEmail = true; })
+                .AddEntityFrameworkStores<TravelAgencyDbContext>();
 
-            //serviceCollection.AddDbContext<ApplicationDbContext>(cfg =>
-            //{
-            //    cfg.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-            //});
+            serviceCollection.AddDbContext<TravelAgencyDbContext>(cfg =>
+            {
+                cfg.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            });
 
-            //serviceCollection.Configure<IdentityOptions>(options =>
-            //{
-            //    options.Password.RequireNonAlphanumeric = false;
-            //    options.Password.RequireLowercase = false;
-            //    options.Password.RequireDigit = false;
-            //});
+            serviceCollection.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
+            });
         }
 
         //private static void BindHandlers(IServiceCollection serviceCollection)
